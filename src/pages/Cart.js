@@ -47,10 +47,10 @@ const Cart = () => {
         </div>
         <div className="w-[1170px] h-[72px] shadow-md pt-[24px] pb-[24px] pl-[40px] pr-[39px] ">
           <div className="grid grid-cols-4 ml-4 gap-[284px]">
-            <span>Product</span>
-            <span>Price</span>
-            <span>Quantity</span>
-            <span>Subtotal</span>
+            <span className="font-medium">Product</span>
+            <span className="font-medium">Price</span>
+            <span className="font-medium">Quantity</span>
+            <span className="font-medium">Subtotal</span>
           </div>
         </div>
         <div className="flex-column justify-[flex-start] items-[flex-start] gap-[40px] display-[flex]">
@@ -104,12 +104,12 @@ const Cart = () => {
                 </div>
 
                 {/*SUbtotal*/}
-                <div className="flex  mt-3 justify-end mr-5">
+                <div className="flex  mt-3 justify-end mr-5 ">
                   ${data.newPrice * data.quantity}
                 </div>
                 <div className="absolute left-10 mt-5 w-fit ">
                   <button
-                    className="bg-red-500 w-6 rounded-full"
+                    className="bg-red-500 w-6 rounded-full opacity-0 hover:opacity-100"
                     onClick={() => dispatch(removeItem(data.id))}
                   >
                     x

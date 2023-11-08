@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import image1 from "../../Assets/cartimg.png";
 import image2 from "../../Assets/heart small.png";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { searchBar } from "../../pages/Cartslice";
 import { FaSistrix } from "react-icons/fa";
 
@@ -23,14 +23,21 @@ function Navbar() {
           <h2 className="text-2xl font-bold">Exclusive</h2>
           <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
             <li>
-              <a className="hover:text-gray-200" href="/home">
+              <NavLink
+                exact
+                to="/home"
+                className=" active:underline active:underline-gray-300"
+              >
                 Home
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a className="hover:text-gray-200" href="/productpage">
+              <NavLink
+                to="/productpage"
+                className=" active:underline active:underline-gray-900"
+              >
                 Products
-              </a>
+              </NavLink>
             </li>
           </ul>
           <form>
@@ -81,9 +88,6 @@ function Navbar() {
           </div>
         </div>
       </nav>
-
-      {/* </Masonry>
-      </ResponsiveMasonry> */}
     </>
   );
 }

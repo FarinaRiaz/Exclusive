@@ -120,12 +120,12 @@ const Cart = () => {
         </div>
 
         <div className="flex">
-          <div className="border ml-12 mt-12 w-fit relative">
+          <div className="border  mt-12 w-fit relative">
             <Button variant="cartall" size="large">
               <Link to="/productpage">Return To Products</Link>
             </Button>
           </div>
-          <div className="border mt-12 w-fit absolute right-12">
+          <div className="border mt-12 w-fit absolute right-20">
             <Button
               variant="cartall"
               size="large"

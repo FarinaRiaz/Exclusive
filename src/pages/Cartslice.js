@@ -4,45 +4,25 @@ import Product from "../pages/ProductFile";
 const initialState = {
   cart: [],
   favi: [],
-  items: Product.map((product) => ({ ...product, quantity: 0 })), // Initialize quantity for each item
+  items: Product.map((product) => ({ ...product, quantity: 0 })),
   totalPrice: 0,
   totalQuantity: 0,
+  search: "",
 };
 
 const Cartslice = createSlice({
   name: "Cart",
   initialState,
   reducers: {
-    addToCart: (state, action) => {
-      const find = state.cart.findIndex(
-        (item) => item.id === action.payload.id
-      );
+    addToCart(state, action) {
+      let find = state.cart.findIndex((item) => item.id === action.payload.id);
       if (find >= 0) {
         state.cart[find].quantity += 1;
-        state.totalQuantity += 1;
       } else {
-        const itemToAdd = { ...action.payload, quantity: 1 };
-        state.cart.push(itemToAdd);
-        state.totalQuantity += 1;
+        state.cart.push({ ...action.payload, quantity: 1 });
       }
     },
-    getCartTotal: (state) => {
-      let { totalPrice, totalQuantity } = state.cart.reduce(
-        (cartTotal, cartItem) => {
-          console.log("carttotal", cartTotal);
-          console.log("cartitem", cartItem);
-          const { price, quantity } = cartItem;
-          console.log(price, quantity);
-          const itemTotal = price * quantity;
-          cartTotal.totalPrice += itemTotal;
-          cartTotal.totalQuantity += quantity;
-          return cartTotal;
-        },
-        { totalPrice: 0, totalQuantity: 0 }
-      );
-      state.totalPrice = totalPrice;
-      state.totalQuantity = totalQuantity;
-    },
+
     addheart: (state, action) => {
       state.favi.push(action.payload);
     },
@@ -52,7 +32,34 @@ const Cartslice = createSlice({
     clearCart: (state) => {
       state.cart = [];
     },
+    searchBar(state, action) {
+      state.search = action.payload;
+    },
+    increaseItemQuantity: (state, action) => {
+      state.cart = state.cart.map((item) => {
+        if (item.id === action.payload) {
+          return { ...item, quantity: item.quantity + 1 };
+        }
+        return item;
+      });
+    },
+    decreaseItemQuantity: (state, action) => {
+      state.cart = state.cart.map((item) => {
+        if (item.id === action.payload) {
+          return { ...item, quantity: item.quantity - 1 };
+        }
+        return item;
+      });
+    },
   },
 });
-export const { addToCart, removeItem, addheart, clearCart } = Cartslice.actions;
+export const {
+  addToCart,
+  removeItem,
+  addheart,
+  clearCart,
+  searchBar,
+  increaseItemQuantity,
+  decreaseItemQuantity,
+} = Cartslice.actions;
 export default Cartslice.reducer;

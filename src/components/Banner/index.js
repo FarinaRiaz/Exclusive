@@ -2,19 +2,14 @@ import React from "react";
 import image1 from "../../Assets/appleimg.png";
 import image2 from "../../Assets/banner.png";
 import image3 from "../../Assets/icons arrow-right.png";
-// import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+
 function Banner() {
   return (
     <>
-      {/* <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
-        <Masonry
-          className="my-masonry-grid"
-          columnClassName="my-masonry-grid_column"
-        > */}
-      <div className=" mt-16 w-screen h-[344px]  bg-black">
+      <div className=" mt-16 w-auto h-[344px]  bg-black">
         <div className="relative">
           <img
-            className="w-[496px] h-[325px] ml-[396px] top-[16px] absolute"
+            className="w-auto h-80 left-1/3 top-6 absolute"
             src={image2}
             alt="image2"
           />
@@ -39,8 +34,6 @@ function Banner() {
           </div>
         </div>
       </div>
-      {/* </Masonry>
-      </ResponsiveMasonry> */}
     </>
   );
 }

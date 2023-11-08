@@ -5,7 +5,7 @@ const variants = {
     "bg-indigo-600 text-white hover:enabled:bg-indigo-700 focus:ring-indigo-500",
   danger: "bg-red-600 text-white hover:enabled:bg-red-700 focus:ring-red-500",
   naked: "hover:text-gray-600 text-gray-500 shadow:none",
-  cart: "text-white bg-black",
+  cart: "text-white bg-black rounded-b-md ",
   cartall: "text-black bg-white",
 };
 
@@ -24,7 +24,7 @@ export const Button = ({
   return (
     <button
       className={`inline-flex justify-center items-center border border-transparent
-        rounded-md font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2
+         font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2
         disabled:opacity-50 disabled:cursor-not-allowed 
         ${className}
         ${variants[variant]}

@@ -3,95 +3,120 @@ import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import { Button } from "../components/button";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart, removeItem } from "./Cartslice";
-import { AiTwotoneDelete } from "react-icons/ai";
-import DownloadReceipt from "../components/DownloadReceipt";
+import {
+  clearCart,
+  decreaseItemQuantity,
+  increaseItemQuantity,
+  removeItem,
+} from "./Cartslice";
 
-// import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-// import Product from "../pages/ProductFile";
+import DownloadReceipt from "../components/DownloadReceipt";
+import Header from "../components/Header";
 
 const Cart = () => {
-  const { cart, totalPrice } = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.cart);
+  const searchItem = useSelector((state) => state.cart.search);
 
   const dispatch = useDispatch();
 
+  const calculateSubtotal = () => {
+    let subtotal = 0;
+    cart.forEach((item) => {
+      subtotal += item.newPrice * item.quantity;
+    });
+    return subtotal;
+  };
+
+  const subtotal = calculateSubtotal();
+
   return (
     <>
+      <Header />
+
       <Navbar />
-      <div>
-        <div className="mt-12 ml-12">
-          <Link to="/home" className="text-black text-xl font-normal">
-            Home/
+      <div className=" pl-20 pr-20 absolute bottom-0 right-0 mb-4 mr-4 z-10"></div>
+      <hr />
+      <div className="ml-20 ">
+        <div className="mt-12 pb-[80px]">
+          <Link to="/home" className="text-stone-500 text-xl font-normal">
+            Home /
           </Link>
-          <Link to="/cart" className="text-black text-xl font-bold">
+          <Link to="/cart" className="text-black text-xl font-normal ml-1.5">
             Cart
           </Link>
         </div>
-        <div className="p-8 shadow-lg ml-12 mr-12 mt-10">
-          <div className="grid grid-cols-4">
+        <div className="w-[1170px] h-[72px] shadow-md pt-[24px] pb-[24px] pl-[40px] pr-[39px] ">
+          <div className="grid grid-cols-4 ml-4 gap-[284px]">
             <span>Product</span>
             <span>Price</span>
             <span>Quantity</span>
             <span>Subtotal</span>
           </div>
         </div>
-        <div>
-          {cart.map((data) => (
-            <div className=" relative grid grid-cols-4 flex p-8 shadow-lg ">
-              <div className="flex" key={data.id}>
-                <img src={data.image} alt="" className="flex ml-3 w-24 h-16" />
-                <span className="text-xs mt-8 ml-3">{data.title}</span>
-              </div>
-              <div className="flex ml-3 mt-8">{data.newPrice}</div>
-              <div className="flex justify-center w-24 h-12 ">
-                {/* <div className="bg-slate-300 rounded">
-                  <input
-                    className="bg-slate-300 h-full w-16 ml-4 rounded placeholder-gray-500"
-                    placeholder="0"
+        <div className="flex-column justify-[flex-start] items-[flex-start] gap-[40px] display-[flex]">
+          {cart
+            .filter((pro) =>
+              searchItem
+                ? pro.title.toLowerCase().includes(searchItem.toLowerCase())
+                : true
+            )
+            .map((data) => (
+              <div className="w-[1170px] h-[102px] relative grid grid-cols-4 mt-8 shadow-sm pt-[24px] pb-[24px] pl-[40px] pr-[39px] shadow-md">
+                <div className="flex" key={data.id}>
+                  <img
+                    src={data.image}
+                    alt=""
+                    className="flex ml-3 w-[50px] h-[39px]"
                   />
+                  <span className="text-base mr-3 mt-2 ml-2 font-normal">
+                    {data.title}
+                  </span>
                 </div>
-                <div className="absolute grid grid-row right-0.5 top-1.5 gap-1">
-                  <button>
-                    <FaAngleUp />
-                  </button>
-                  <button>
-                    <FaAngleDown />
-                  </button>
-                </div> */}
+                <div className="flex ml-20 mt-3  gap-[284px]">
+                  ${data.newPrice}
+                </div>
 
-                <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+                <div className="flex justify-center h-12 w-fit border-2 border-stone-300 rounded   ml-36">
+                  <div className=" rounded">
+                    <input
+                      type="number"
+                      className="h-full w-fit ml-4 rounded placeholder-gray-500 hover-none outline-none mr-2"
+                      placeholder="0"
+                      min={1}
+                      max={10}
+                      value={data.quantity}
+                      onChange={(e) => {
+                        const newQuantity = parseInt(e.target.value, 10);
+                        if (
+                          !isNaN(newQuantity) &&
+                          newQuantity >= 1 &&
+                          newQuantity <= 10
+                        ) {
+                          if (newQuantity > data.quantity) {
+                            dispatch(increaseItemQuantity(data.id));
+                          } else if (newQuantity < data.quantity) {
+                            dispatch(decreaseItemQuantity(data.id));
+                          }
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/*SUbtotal*/}
+                <div className="flex  mt-3 justify-end mr-5">
+                  ${data.newPrice * data.quantity}
+                </div>
+                <div className="absolute left-10 mt-5 w-fit ">
                   <button
-                    data-action="decrement"
-                    class=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none"
+                    className="bg-red-500 w-6 rounded-full"
+                    onClick={() => dispatch(removeItem(data.id))}
                   >
-                    <span class="m-auto text-2xl font-thin">-</span>
-                  </button>
-                  <input
-                    type="number"
-                    class="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none"
-                    name="custom-input-number"
-                    value={data.quantity}
-                  ></input>
-                  <button
-                    data-action="increment"
-                    class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer"
-                  >
-                    <span class="m-auto text-2xl font-thin">+</span>
+                    x
                   </button>
                 </div>
               </div>
-              <div className="flex ml-3 mt-8">{totalPrice}</div>
-              <div className="mt-12 w-fit absolute right-12">
-                <Button
-                  variant="cartall"
-                  size="large"
-                  onClick={() => dispatch(removeItem(data.id))}
-                >
-                  <AiTwotoneDelete className="w-20 h-6 fill-red-500" />
-                </Button>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
 
         <div className="flex">
@@ -110,7 +135,7 @@ const Cart = () => {
             </Button>
           </div>
         </div>
-        <DownloadReceipt />
+        <DownloadReceipt subtotal={subtotal} />
       </div>
     </>
   );

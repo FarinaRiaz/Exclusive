@@ -1,12 +1,16 @@
 import React, { useRef } from "react";
 import { Button } from "./button";
-import { useSelector } from "react-redux";
+
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
-const DownloadReceipt = () => {
+const DownloadReceipt = ({ subtotal }) => {
+  const calculateTotal = (subtotal) => {
+    return subtotal;
+  };
+
+  const total = calculateTotal(subtotal);
   const pdfRef = useRef();
-  const { totalPrice } = useSelector((state) => state.cart);
 
   const downloadpdf = () => {
     const input = pdfRef.current;
@@ -41,15 +45,15 @@ const DownloadReceipt = () => {
 
       <div className="flex text-md border-b p-3 grid grid-cols-2">
         Subtotal
-        <span className="flex justify-end">{totalPrice}</span>
+        <span className="flex justify-end">${subtotal}</span>
       </div>
       <div className="flex text-md border-b  p-3 grid grid-cols-2">
-        Shiping
+        Shipping
         <span className="flex justify-end">Free</span>
       </div>
       <div className="flex text-md  p-3 grid grid-cols-2">
         Total
-        <span className="flex justify-end">{totalPrice}</span>
+        <span className="flex justify-end">${total}</span>
       </div>
       <div className="p-3 flex justify-center">
         <Button

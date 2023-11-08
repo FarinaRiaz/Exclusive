@@ -7,16 +7,16 @@ import { addToCart } from "../../pages/Cartslice";
 const Banner2 = () => {
   const dispatch = useDispatch();
   const handlemoveToAll = () => {
-    Product.map((item) => {
+    Product.forEach((item) => {
       dispatch(addToCart(item));
     });
   };
 
   return (
     <div className="w-full h-fit p-3 mt-14 ">
-      <div className="flex text-lg font-semibold ml-12 items-center relative">
+      <div className="flex text-lg font-semibold  items-center relative">
         <h1 className="text-xl">{`Total Products(${Product.length})`}</h1>
-        <div className="right-6 absolute border-2 border-neutral-100 rounded">
+        <div className="right-3 absolute border border-stone-400  rounded">
           <Button variant="cartall" size="large" onClick={handlemoveToAll}>
             Move All To Cart
           </Button>
